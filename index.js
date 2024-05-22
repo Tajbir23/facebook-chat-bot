@@ -39,6 +39,7 @@ app.get('/webhook', (req, res) => {
 app.post('/webhook', (req, res) => {
     console.log('POST /webhook called');
     let body = req.body;
+    console.log(req.body)
     console.log('Received body:', JSON.stringify(body, null, 2));
 
     if (body.object === 'page') {
@@ -99,6 +100,7 @@ function handleMessage(senderPsid, receivedMessage) {
 }
 
 function callSendAPI(senderPsid, response) {
+    console.log('callSendAPI called', senderPsid);
     let requestBody = {
         'recipient': {
             'id': senderPsid
@@ -112,6 +114,7 @@ function callSendAPI(senderPsid, response) {
         'method': 'POST',
         'json': requestBody
     }, (err, res, body) => {
+        console.log('body',body)
         if (!err) {
             console.log('Message sent!');
         } else {
