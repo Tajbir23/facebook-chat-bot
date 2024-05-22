@@ -1,13 +1,14 @@
-require('dotenv').config()
-
+require('dotenv').config();
 
 const express = require('express');
-// const bodyParser = require('body-parser');
 const request = require('request');
 const app = express();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+
+console.log('PAGE_ACCESS_TOKEN:', PAGE_ACCESS_TOKEN);  // Debug: Ensure token is loaded
+console.log('VERIFY_TOKEN:', VERIFY_TOKEN);            // Debug: Ensure token is loaded
 
 app.use(express.json());
 
@@ -17,6 +18,8 @@ app.get('/webhook', (req, res) => {
     let mode = req.query['hub.mode'];
     let token = req.query['hub.verify_token'];
     let challenge = req.query['hub.challenge'];
+    console.log('Received token:', token);  // Log the received token
+    console.log('Expected token:', VERIFY_TOKEN);  // Log the expected token
 
     if (mode && token) {
         if (mode === 'subscribe' && token === VERIFY_TOKEN) {
@@ -26,6 +29,9 @@ app.get('/webhook', (req, res) => {
             console.log('WEBHOOK_VERIFICATION_FAILED');
             res.sendStatus(403);
         }
+    } else {
+        console.log('WEBHOOK_VERIFICATION_NO_MODE_OR_TOKEN');
+        res.sendStatus(400);
     }
 });
 
