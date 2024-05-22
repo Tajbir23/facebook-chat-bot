@@ -39,7 +39,7 @@ app.get('/webhook', (req, res) => {
 app.post('/webhook', (req, res) => {
     console.log('POST /webhook called');
     let body = req.body;
-    console.log(req.body)
+    console.log('req body',req.body)
     console.log('Received body:', JSON.stringify(body, null, 2));
 
     if (body.object === 'page') {
